@@ -1,0 +1,23 @@
+{
+  "name": "data-structures",
+  "version": "1.0.0",
+  "description": "Random data structures in JavaScript",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/kurtlocker/data-structures.git"
+  },
+  "keywords": [
+    "data\\",
+    "structures"
+  ],
+  "author": "kmedley",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/kurtlocker/data-structures/issues"
+  },
+  "homepage": "https://github.com/kurtlocker/data-structures#readme"
+}
