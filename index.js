@@ -150,19 +150,128 @@ class LinkedList {
     console.log(JSON.stringify(this, null, 2));
   }
 }
+/**
+ * Binary Tree built using
+ * http://www.i-programmer.info/programming/javascript/1899-javascript-data-structures-the-binary-tree.html
+ */
+class BinaryTree {
+  constructor() {
+    // Nodes of the binary tree.
+    this.Nodes = [];
+    // Book keeping to store the current location
+    this.level = 0;
+    this.node = 0;
+  }
+  // The storage mapping function (location = node + 2^level - 1).
+  // The SMF function takes a node and level number and returns
+  // the location within a standard array that the node should be stored.
+  SMF(level, node) {
+    return node + (2**level) - 1;
+  }
+  /**
+   * Set a value at a specified location in the nodes array.
+   */
+  set_node(value, level, node) {
+    if (typeof level === "undefined") {
+        this.Nodes[this.SMF(this.level, this.node)] = value;
+    } else {
+        this.Nodes[this.SMF(level, node)] = value;
+    }
+  }
+  /**
+   * Get a value at a specified location in the nodes array.
+   */
+  get_node_value(level, node) {
+    if (typeof level === "undefined") {
+      return this.Nodes[this.SMF(this.level, this.node)]
+    } else {
+      return this.Nodes[this.SMF(level, node)]
+    }
+  }
+  /**
+   * Calling this.root() sets the current position to the root. This function
+   * will also return the value at root and can optionally by used to set
+   * the value of root.
+   */
+  root(value) {
+    this.level = 0;
+    this.node = 0;
+    // If value was provided, set the root value to value
+    if (typeof value !== "undefined") {
+      this.Nodes[this.SMF(this.level, this.node)] = value;
+    }
+    return this.Nodes[this.SMF(this.level, this.node)];
+  }
+  /**
+   * Calling this.left_child() sets the current position to the left child
+   * of the current position. It also sets the value if one is provided and
+   * finally returns the value of the node at the position.
+   */
+  left_child(value) {
+    this.level++;
+    this.node = this.node * 2;
+    // If value was provided, set the left child node value to value.
+    if (typeof value !== "undefined") {
+      this.Nodes[this.SMF(this.level, this.node)] = value
+    }
+    return this.Nodes[this.SMF(this.level, this.node)];
+  }
+  /**
+   * A duplicate of the left_child function except adds 1 to the node after
+   * multiplication because essentially left child + 1.
+   */
+  right_child(value) {
+    this.level++;
+    this.node = (this.node * 2) + 1;
+    // If value was provided, set the right child node value to value.
+    if (typeof value !== "undefined") {
+      this.Nodes[this.SMF(this.level, this.node)] = value
+    }
+    return this.Nodes[this.SMF(this.level, this.node)];
+  }
+  /**
+   * "Again it should be obvious that the parent of the node at (level,node)
+   * is at (level-1, node/2) where the division is integer division. It is
+   * easier to use the right shift to implement integer division so we have:"
+   */
+  parent_node(value) {
+    this.level--;
+    this.node = this.node>>1; // (node/2)
+    // If value was provided, set the parent node value to value.
+    if (typeof value !== "undefined") {
+      this.Nodes[this.SMF(this.level, this.node)] = value
+    }
+    return this.Nodes[this.SMF(this.level, this.node)];
+  }
+  /**
+   * Depth first search. Traverse down the left children until we reach
+   * the end. When we reach the end, go up a level (parent_node), and go down
+   * the right children.
+   */
+  DFS() {
+    console.log(this.get_node_value());
+    if (typeof this.left_child() !== "undefined") {
+      this.DFS();
+    }
+    this.parent_node();
+    if (typeof this.right_child() !== "undefined") {
+      this.DFS();
+    }
+    this.parent_node();
+  }
+}
 module.exports = {
   LinkedList: LinkedList,
-  BinaryTree: undefined
+  BinaryTree: BinaryTree
 }
-// let linkedList = new LinkedList();
-// for (var i = 0; i < 10; i++) {
-//   linkedList.add_node(i);
-// }
-// linkedList.each(node => {
-//   console.log(node.data);
-// });
-// linkedList.toConsole();
-// console.log('Deleting a node');
-// linkedList.delete_node(5)
-//   .toConsole();
-// console.log(JSON.stringify(linkedList, null, 2))
+
+// let tree = new BinaryTree();
+// tree.set_node("k", 0, 0);
+// tree.set_node("u", 1, 0);
+// tree.set_node("r", 1, 1);
+// tree.set_node("t", 2, 0);
+// tree.set_node("m", 2, 1);
+// tree.set_node("e", 2, 2);
+// tree.set_node("d", 2, 3);
+//
+// tree.DFS();
