@@ -16,7 +16,9 @@ class LinkedList {
    */
   create_node(data) {
     return {
-      data: typeof data !== "undefined" ? data : null,
+      data: typeof data !== "undefined"
+        ? data
+        : null,
       next: null
     }
   }
@@ -95,6 +97,55 @@ class LinkedList {
     }
     return this;
   }
+  /**
+   * Inserts a node after a specific node with matching "data".
+   * A new node is created using new_data. The current node's
+   * next points at the new node. If we're at the end, the new
+   * node becomes the end.
+   */
+  insert_after(data, new_data) {
+    let current = this.start;
+    while (current !== null) {
+      if (current.data === data) {
+        let new_node = this.create_node(new_data);
+        new_node.next = current.next;
+        if (current === this.end) {
+          // Case where we're inserting after the end.
+          // The new node is the end.
+          this.end = new_node;
+        }
+        // Current's next node is the new node.
+        current.next = new_node;
+      }
+      current = current.next;
+    }
+    return this;
+  }
+  /**
+   * Returns the node at the specific index. Returns
+   * null if no node was found.
+   */
+  get_node(n) {
+    let current = this.start;
+    for (let i = 0; i <= n; i++) {
+      if (i === n) {
+        return current;
+      }
+      current = current.next;
+    }
+    return null;
+  }
+  /**
+   * Loop through each node and execute a function,
+   * passing the current node with each iteration.
+   */
+  each(f) {
+    let current = this.start;
+    while (current !== null) {
+      f(current);
+      current = current.next;
+    }
+  }
   toConsole() {
     console.log(JSON.stringify(this, null, 2));
   }
@@ -104,10 +155,12 @@ module.exports = {
   BinaryTree: undefined
 }
 // let linkedList = new LinkedList();
-// console.log('Adding 10 nodes...')
 // for (var i = 0; i < 10; i++) {
 //   linkedList.add_node(i);
 // }
+// linkedList.each(node => {
+//   console.log(node.data);
+// });
 // linkedList.toConsole();
 // console.log('Deleting a node');
 // linkedList.delete_node(5)
