@@ -1,2 +1,2 @@
-# Data structures
-Random data structures built with JavaScript
+# Data structures and Algorithms
+Random data structures and algorithms built with JavaScript
